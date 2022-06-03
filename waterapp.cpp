@@ -52,8 +52,10 @@ void WaterApp::setTimeLeft(int s)
 
 QString WaterApp::timeLeftToQString()
 {
-    QString tLeft(QString::number(timeLeft.tm_hour) + ":" + QString::number(timeLeft.tm_min) + ":" + QString::number(timeLeft.tm_sec));
-    return tLeft;
+    QString hour = (timeLeft.tm_hour > 9) ? QString::number(timeLeft.tm_hour) : "0" + QString::number(timeLeft.tm_hour);
+    QString min = (timeLeft.tm_min > 9) ? QString::number(timeLeft.tm_min) : "0" + QString::number(timeLeft.tm_min);
+    QString sec = (timeLeft.tm_sec > 9) ? QString::number(timeLeft.tm_sec) : "0" + QString::number(timeLeft.tm_sec);
+    return hour + ":" + min + ":" + sec;
 }
 
 
