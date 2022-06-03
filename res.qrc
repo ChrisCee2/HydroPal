@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/imgs">
+        <file>res/imgs/alert.png</file>
+        <file>res/imgs/idle.png</file>
+    </qresource>
+</RCC>

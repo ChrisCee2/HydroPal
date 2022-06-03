@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
-    <height>601</height>
+    <width>799</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="waterBoy"/>
+      <widget class="QLabel" name="pal">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="resetTimer">
@@ -55,7 +62,6 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

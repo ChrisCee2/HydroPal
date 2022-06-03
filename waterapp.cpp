@@ -9,17 +9,22 @@ WaterApp::WaterApp(QWidget *parent)
     this->setCentralWidget(ui->verticalLayoutWidget);
 
     // Decorate window stuff
-    resize(200, 200);
+    resize(164, 164);
+    this->setFixedSize(this->size());
 
     // Time interval in seconds
-    timeInterval = 3600;
+    timeInterval = 10;
     timeLeft = {0};
     resetTimer();
 
     timerUpdater = new QTimer(this);
-    connect(timerUpdater, SIGNAL(timeout()), this, SLOT(updateTimer()));
+    connect(timerUpdater, SIGNAL(timeout()), this, SLOT(checkTimer()));
     // Timer works in milliseconds
     timerUpdater->start(1000);
+
+    // Icon stuff
+    QPixmap idlePix(":/imgs/res/imgs/idle.png");
+    ui->pal->setPixmap(idlePix);
 }
 
 WaterApp::~WaterApp()
@@ -38,15 +43,17 @@ void WaterApp::on_resetTimer_released()
 
 void WaterApp::alert()
 {
-
+    // Display alert image / animation
+    QPixmap alertPix(":/imgs/res/imgs/alert.png");
+    ui->pal->setPixmap(alertPix);
 }
 
 
 void WaterApp::setTimeLeft(int s)
 {
-    timeLeft.tm_hour = s / 3600;
-    timeLeft.tm_min = (s - (timeLeft.tm_hour * 3600)) / 60;
-    timeLeft.tm_sec = s - ((s - (timeLeft.tm_hour * 3600)) + (s - (timeLeft.tm_min * 60)));
+    timeLeft.tm_hour = (timeInterval - s) / 3600;
+    timeLeft.tm_min = ((timeInterval - s) - (timeLeft.tm_hour * 3600)) / 60;
+    timeLeft.tm_sec = (timeInterval - s) - ((timeLeft.tm_hour * 3600) + (timeLeft.tm_min * 60));
 }
 
 
@@ -63,14 +70,38 @@ void WaterApp::resetTimer()
 {
     time(&lastTime);
     time(&currTime);
-    setTimeLeft(difftime(lastTime, currTime));
+    setTimeLeft(difftime(currTime, lastTime));
     ui->timer->setText(timeLeftToQString());
+
+    // Reset icon
+    QPixmap idlePix(":/imgs/res/imgs/idle.png");
+    ui->pal->setPixmap(idlePix);
 }
 
 
 void WaterApp::updateTimer()
 {
     time(&currTime);
-    setTimeLeft(difftime(lastTime, currTime));
+    setTimeLeft(difftime(currTime, lastTime));
     ui->timer->setText(timeLeftToQString());
+}
+
+
+void WaterApp::checkTimer()
+{
+    if (timeLeft.tm_hour <= 0 && timeLeft.tm_min <= 0 && timeLeft.tm_sec <= 0)
+    {
+        stopTimer();
+        alert();
+    }
+    else
+    {
+        updateTimer();
+    }
+}
+
+
+void WaterApp::stopTimer()
+{
+    timerUpdater->stop();
 }

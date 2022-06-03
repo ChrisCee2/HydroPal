@@ -19,7 +19,9 @@ public:
 
 private slots:
     void on_resetTimer_released();
+    void checkTimer();
     void updateTimer();
+    void stopTimer();
     void resetTimer();
     void setTimeLeft(int s);
     QString timeLeftToQString();
