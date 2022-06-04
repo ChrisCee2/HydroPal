@@ -8,6 +8,22 @@ WaterApp::WaterApp(QWidget *parent)
     ui->setupUi(this);
     this->setCentralWidget(ui->verticalLayoutWidget);
 
+    icon = QIcon(":/imgs/res/imgs/icon.png");
+    idlePix = QPixmap(":/imgs/res/imgs/idle.png");
+    alertPix = QPixmap(":/imgs/res/imgs/alert.png");
+    trayMenu.addAction("Close", this, &WaterApp::on_actionClose_triggered);
+
+
+    // Store in system tray
+    if (QSystemTrayIcon::isSystemTrayAvailable())
+    {
+        // Store into tray
+        trayIcon.setIcon(icon);
+        trayIcon.show();
+        trayIcon.setContextMenu(&trayMenu);
+        trayIcon.setToolTip("HydroPal");
+    }
+
     // Decorate window stuff
     resize(164, 164);
     this->setFixedSize(this->size());
@@ -23,7 +39,6 @@ WaterApp::WaterApp(QWidget *parent)
     timerUpdater->start(1000);
 
     // Icon stuff
-    QPixmap idlePix(":/imgs/res/imgs/idle.png");
     ui->pal->setPixmap(idlePix);
 }
 
@@ -44,7 +59,6 @@ void WaterApp::on_resetTimer_released()
 void WaterApp::alert()
 {
     // Display alert image / animation
-    QPixmap alertPix(":/imgs/res/imgs/alert.png");
     ui->pal->setPixmap(alertPix);
 }
 
@@ -74,7 +88,6 @@ void WaterApp::resetTimer()
     ui->timer->setText(timeLeftToQString());
 
     // Reset icon
-    QPixmap idlePix(":/imgs/res/imgs/idle.png");
     ui->pal->setPixmap(idlePix);
 }
 
@@ -105,3 +118,9 @@ void WaterApp::stopTimer()
 {
     timerUpdater->stop();
 }
+
+void WaterApp::on_actionClose_triggered()
+{
+    QApplication::quit();
+}
+

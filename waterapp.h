@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <time.h>
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaterApp; }
@@ -27,6 +29,8 @@ private slots:
     QString timeLeftToQString();
     void alert();
 
+    void on_actionClose_triggered();
+
 private:
     Ui::WaterApp *ui;
     QTimer *timerUpdater;
@@ -34,6 +38,11 @@ private:
     time_t lastTime;
     time_t currTime;
     struct tm timeLeft;
+    QSystemTrayIcon trayIcon;
+    QPixmap idlePix;
+    QPixmap alertPix;
+    QIcon icon;
+    QMenu trayMenu;
 
 };
 #endif // WATERAPP_H
