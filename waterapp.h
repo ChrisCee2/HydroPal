@@ -7,6 +7,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include "adjtimerdialog.h"
+#include <QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaterApp; }
@@ -49,6 +50,31 @@ private:
     QIcon icon;
     QMenu trayMenu;
     QDialog *adjTimerDialog;
+    bool isMoving;
+    QPoint pressPos;
+
+protected:
+    void mousePressEvent(QMouseEvent *event)
+    {
+        pressPos = event->pos();
+        isMoving = true;
+    }
+
+
+    void mouseReleaseEvent(QMouseEvent* event)
+    {
+        isMoving = false;
+    }
+
+
+    void mouseMoveEvent(QMouseEvent *event)
+    {
+        if (isMoving)
+        {
+            QPoint diff = event->pos() - pressPos;
+            this->move(window()->pos()+diff);
+        }
+    }
 
 };
 #endif // WATERAPP_H

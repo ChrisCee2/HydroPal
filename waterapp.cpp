@@ -143,4 +143,3 @@ void WaterApp::on_actionAdjustTimer_triggered()
     adjTimerDialog = new QDialog(this);
     adjTimerDialog->show();
 }
-
