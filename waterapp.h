@@ -6,6 +6,7 @@
 #include <time.h>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include "adjtimerdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaterApp; }
@@ -31,6 +32,10 @@ private slots:
 
     void on_actionClose_triggered();
 
+    void on_actionResetTimer_triggered();
+
+    void on_actionAdjustTimer_triggered();
+
 private:
     Ui::WaterApp *ui;
     QTimer *timerUpdater;
@@ -43,6 +48,7 @@ private:
     QPixmap alertPix;
     QIcon icon;
     QMenu trayMenu;
+    QDialog *adjTimerDialog;
 
 };
 #endif // WATERAPP_H

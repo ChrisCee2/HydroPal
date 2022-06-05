@@ -11,6 +11,8 @@ WaterApp::WaterApp(QWidget *parent)
     icon = QIcon(":/imgs/res/imgs/icon.png");
     idlePix = QPixmap(":/imgs/res/imgs/idle.png");
     alertPix = QPixmap(":/imgs/res/imgs/alert.png");
+    trayMenu.addAction("Adjust Water Timer", this, &WaterApp::on_actionAdjustTimer_triggered);
+    trayMenu.addAction("Consume Water", this, &WaterApp::on_actionResetTimer_triggered);
     trayMenu.addAction("Close", this, &WaterApp::on_actionClose_triggered);
 
 
@@ -122,5 +124,19 @@ void WaterApp::stopTimer()
 void WaterApp::on_actionClose_triggered()
 {
     QApplication::quit();
+}
+
+
+void WaterApp::on_actionResetTimer_triggered()
+{
+    timerUpdater->stop();
+    resetTimer();
+    timerUpdater->start(1000);
+}
+
+
+void WaterApp::on_actionAdjustTimer_triggered()
+{
+    adjTimerDialog->exec();
 }
 
