@@ -37,6 +37,8 @@ private slots:
 
     void on_actionAdjustTimer_triggered();
 
+    void on_actionClickthrough_triggered();
+
 private:
     Ui::WaterApp *ui;
     QTimer *timerUpdater;
@@ -52,24 +54,29 @@ private:
     QDialog *adjTimerDialog;
     bool isMoving;
     QPoint pressPos;
+    QAction clickThrough;
+    bool movable = true;
 
 protected:
     void mousePressEvent(QMouseEvent *event)
     {
-        pressPos = event->pos();
-        isMoving = true;
+        if (movable)
+        {
+            pressPos = event->pos();
+            isMoving = true;
+        }
     }
 
 
     void mouseReleaseEvent(QMouseEvent* event)
     {
-        isMoving = false;
+        if (movable) {isMoving = false;}
     }
 
 
     void mouseMoveEvent(QMouseEvent *event)
     {
-        if (isMoving)
+        if (movable && isMoving)
         {
             QPoint diff = event->pos() - pressPos;
             this->move(window()->pos()+diff);

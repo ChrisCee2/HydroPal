@@ -77,6 +77,11 @@
     <string>AdjustTimer</string>
    </property>
   </action>
+  <action name="actionClickthrough">
+   <property name="text">
+    <string>Clickthrough</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
