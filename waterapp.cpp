@@ -7,6 +7,8 @@ WaterApp::WaterApp(QWidget *parent)
 {
     ui->setupUi(this);
     this->setCentralWidget(ui->verticalLayoutWidget);
+    // Hide title bar
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     icon = QIcon(":/imgs/res/imgs/icon.png");
     idlePix = QPixmap(":/imgs/res/imgs/idle.png");
@@ -137,6 +139,8 @@ void WaterApp::on_actionResetTimer_triggered()
 
 void WaterApp::on_actionAdjustTimer_triggered()
 {
-    adjTimerDialog->exec();
+    hide();
+    adjTimerDialog = new QDialog(this);
+    adjTimerDialog->show();
 }
 
