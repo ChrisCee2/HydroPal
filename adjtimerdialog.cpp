@@ -6,11 +6,15 @@ adjTimerDialog::adjTimerDialog(QWidget *parent) :
     ui(new Ui::adjTimerDialog)
 {
     ui->setupUi(this);
-    // Show waterapp when destroyed
-    //destroyed();
 }
 
-adjTimerDialog::~adjTimerDialog()
+
+adjTimerDialog::~adjTimerDialog() { delete ui; }
+
+
+void adjTimerDialog::reject()
 {
-    delete ui;
+    qDebug() << this->parentWidget();
+    this->parentWidget()->show();
+    QDialog::reject();
 }

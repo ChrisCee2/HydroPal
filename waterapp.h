@@ -6,9 +6,10 @@
 #include <time.h>
 #include <QSystemTrayIcon>
 #include <QMenu>
-#include "adjtimerdialog.h"
 #include <QMouseEvent>
 #include "pal.h"
+#include <QDialog>
+#include "adjtimerdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaterApp; }
@@ -50,7 +51,7 @@ private:
     QSystemTrayIcon trayIcon;
     QIcon icon;
     QMenu trayMenu;
-    QDialog *adjTimerDialog;
+    adjTimerDialog *adjustTimerDialog;
     bool isMoving;
     QPoint pressPos;
     QAction clickThrough;

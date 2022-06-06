@@ -5,12 +5,14 @@ WaterApp::WaterApp(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::WaterApp)
 {
+    // App setup
     ui->setupUi(this);
     this->setCentralWidget(ui->verticalLayoutWidget);
     // Set flags
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-
     icon = QIcon(":/imgs/res/imgs/icon.png");
+
+    // Add actions to tray menu icon
     trayMenu.addAction("Adjust Water Timer", this, SLOT(on_actionAdjustTimer_triggered()));
     trayMenu.addAction("Consume Water", this, SLOT(on_actionResetTimer_triggered()));
     clickThrough.setCheckable(true);
@@ -19,7 +21,7 @@ WaterApp::WaterApp(QWidget *parent)
     trayMenu.addAction(&clickThrough);
     trayMenu.addAction("Close", this, SLOT(on_actionClose_triggered()));
 
-    // Store in system tray
+    // Create system tray icon
     if (QSystemTrayIcon::isSystemTrayAvailable())
     {
         // Store into tray
@@ -29,7 +31,7 @@ WaterApp::WaterApp(QWidget *parent)
         trayIcon.setToolTip("HydroPal");
     }
 
-    // Pal pic stuff
+    // Set up pal pic
     ui->verticalLayout->insertWidget(1, &pal, 0, Qt::AlignHCenter);
 
     // Decorate window stuff
@@ -49,10 +51,8 @@ WaterApp::WaterApp(QWidget *parent)
     timerUpdater->start(1000);
 }
 
-WaterApp::~WaterApp()
-{
-    delete ui;
-}
+
+WaterApp::~WaterApp() { delete ui; }
 
 
 void WaterApp::on_resetTimer_released()
@@ -63,11 +63,7 @@ void WaterApp::on_resetTimer_released()
 }
 
 
-void WaterApp::alert()
-{
-    // Display alert image / animation
-    pal.alert();
-}
+void WaterApp::alert() { pal.alert(); }
 
 
 void WaterApp::setTimeLeft(int s)
@@ -121,15 +117,10 @@ void WaterApp::checkTimer()
 }
 
 
-void WaterApp::stopTimer()
-{
-    timerUpdater->stop();
-}
+void WaterApp::stopTimer() { timerUpdater->stop(); }
 
-void WaterApp::on_actionClose_triggered()
-{
-    QApplication::quit();
-}
+
+void WaterApp::on_actionClose_triggered() { QApplication::quit(); }
 
 
 void WaterApp::on_actionResetTimer_triggered()
@@ -142,9 +133,9 @@ void WaterApp::on_actionResetTimer_triggered()
 
 void WaterApp::on_actionAdjustTimer_triggered()
 {
+    adjustTimerDialog = new adjTimerDialog(this);
+    adjustTimerDialog->show();
     hide();
-    adjTimerDialog = new QDialog(this);
-    adjTimerDialog->show();
 }
 
 
