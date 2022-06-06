@@ -8,6 +8,7 @@
 #include <QMenu>
 #include "adjtimerdialog.h"
 #include <QMouseEvent>
+#include "pal.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class WaterApp; }
@@ -47,8 +48,6 @@ private:
     time_t currTime;
     struct tm timeLeft;
     QSystemTrayIcon trayIcon;
-    QPixmap idlePix;
-    QPixmap alertPix;
     QIcon icon;
     QMenu trayMenu;
     QDialog *adjTimerDialog;
@@ -56,6 +55,8 @@ private:
     QPoint pressPos;
     QAction clickThrough;
     bool movable = true;
+    bool moved = false;
+    Pal pal;
 
 protected:
     void mousePressEvent(QMouseEvent *event)
@@ -64,13 +65,18 @@ protected:
         {
             pressPos = event->pos();
             isMoving = true;
+            moved = false;
         }
     }
 
 
     void mouseReleaseEvent(QMouseEvent* event)
     {
-        if (movable) {isMoving = false;}
+        if (movable)
+        {
+            isMoving = false;
+            moved = false;
+        }
     }
 
 
@@ -80,6 +86,7 @@ protected:
         {
             QPoint diff = event->pos() - pressPos;
             this->move(window()->pos()+diff);
+            moved = true;
         }
     }
 

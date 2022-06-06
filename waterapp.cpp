@@ -7,12 +7,10 @@ WaterApp::WaterApp(QWidget *parent)
 {
     ui->setupUi(this);
     this->setCentralWidget(ui->verticalLayoutWidget);
-    // Hide title bar
+    // Set flags
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
     icon = QIcon(":/imgs/res/imgs/icon.png");
-    idlePix = QPixmap(":/imgs/res/imgs/idle.png");
-    alertPix = QPixmap(":/imgs/res/imgs/alert.png");
     trayMenu.addAction("Adjust Water Timer", this, SLOT(on_actionAdjustTimer_triggered()));
     trayMenu.addAction("Consume Water", this, SLOT(on_actionResetTimer_triggered()));
     clickThrough.setCheckable(true);
@@ -20,7 +18,6 @@ WaterApp::WaterApp(QWidget *parent)
     connect(&clickThrough, SIGNAL(triggered()), this, SLOT(on_actionClickthrough_triggered()));
     trayMenu.addAction(&clickThrough);
     trayMenu.addAction("Close", this, SLOT(on_actionClose_triggered()));
-
 
     // Store in system tray
     if (QSystemTrayIcon::isSystemTrayAvailable())
@@ -32,9 +29,11 @@ WaterApp::WaterApp(QWidget *parent)
         trayIcon.setToolTip("HydroPal");
     }
 
+    // Pal pic stuff
+    ui->verticalLayout->insertWidget(1, &pal, 0, Qt::AlignHCenter);
+
     // Decorate window stuff
     resize(minimumSizeHint());
-    this->setFixedSize(this->size());
     this->adjustSize();
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     ui->timer->setStyleSheet("QLabel {color: white;}");
@@ -48,10 +47,6 @@ WaterApp::WaterApp(QWidget *parent)
     connect(timerUpdater, SIGNAL(timeout()), this, SLOT(checkTimer()));
     // Timer works in milliseconds
     timerUpdater->start(1000);
-
-    // Pal pic stuff
-    ui->pal->setPixmap(idlePix);
-    ui->pal->resize(idlePix.size());
 }
 
 WaterApp::~WaterApp()
@@ -71,8 +66,7 @@ void WaterApp::on_resetTimer_released()
 void WaterApp::alert()
 {
     // Display alert image / animation
-    ui->pal->setPixmap(alertPix);
-    ui->pal->resize(alertPix.size());
+    pal.alert();
 }
 
 
@@ -101,8 +95,7 @@ void WaterApp::resetTimer()
     ui->timer->setText(timeLeftToQString());
 
     // Reset icon
-    ui->pal->setPixmap(idlePix);
-    ui->pal->resize(idlePix.size());
+    pal.idle();
 }
 
 
@@ -153,6 +146,7 @@ void WaterApp::on_actionAdjustTimer_triggered()
     adjTimerDialog = new QDialog(this);
     adjTimerDialog->show();
 }
+
 
 void WaterApp::on_actionClickthrough_triggered()
 {

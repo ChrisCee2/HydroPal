@@ -11,10 +11,12 @@ CONFIG += c++17
 SOURCES += \
     adjtimerdialog.cpp \
     main.cpp \
+    pal.cpp \
     waterapp.cpp
 
 HEADERS += \
     adjtimerdialog.h \
+    pal.h \
     waterapp.h
 
 FORMS += \
